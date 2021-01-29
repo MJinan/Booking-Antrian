@@ -57,31 +57,33 @@ class ProsesController extends Controller
         return response()->json($data);
     }
 
-    /* public function save_form(Request $req)
+    public function save_form(Request $req)
     {
-        $this->validate($req, [
-            'penjamin'  => 'required',
-            'tglreg'    => 'required',
-            'klinik'    => 'required',
-            'dokter'    => 'required',
-            'norujukan' => 'nullable'
-        ]);
 
-        $alamat = Pasien::select('ALM1PASIEN')
-                ->where('NOPASIEN', Auth::id())
-                ->first();
+/* --------------------------------- ANTRIAN -------------------------------- */
+        $loket = Antrian::get_loket($req->klinik);
+        $no_antri = sprintf('%03d', Antrian::get_antri($req->tglreg, $loket->grpunit));
 
-        $kwn = Pasien::select('STKAWIN')
-                ->where('NOPASIEN', Auth::id())
-                ->first();
+        $field_antrian = [
+            'NO_ANTRI' => $no_antri,
+            'GRP_LOKET' => $loket->grpunit,
+            'TGL_ANTRI' => $req->tglreg
+        ];
 
-        $date = Carbon::parse($req->tglreg)->format('ymd');
-        $no_antrian = 'A'.sprintf("%03d", $req->nobooking+1);
+        $antrian = DB::connection('sqlsrv2')
+                ->table('ANTRI')
+                ->insert($field_antrian);
+        
+/* -------------------------- RESERVASI REGBOOKING -------------------------- */
+        $no_booking = Regbooking::get_booking();
+        $no_urutdr = Regbooking::get_NoUrutDr($req->klinik, $req->dokter, $req->tglreg);
+        $alamat = Regbooking::get_alamat();
+        $stskawin = Regbooking::get_stskawin();
 
-        $nourutdr = $req->nourutdr+1;
+        $generate = Carbon::parse($req->tglreg)->format('ymd');
 
-        $field = [
-            'NOBOOKING' => $date.$no_antrian,
+        $field_regbooking = [
+            'NOBOOKING' => $generate.$loket->grpunit.sprintf('%03d', $no_booking),
             'KODEBAGIAN' => $req->klinik,
             'KODEDOKTER' => $req->dokter,
             'WAKTUDR' => 'P',
@@ -111,7 +113,7 @@ class ProsesController extends Controller
             'TIPEBOOKING' => 'J',
             'JNSBOOKING' => 1,
 
-            'NOURUTDR' => $nourutdr,
+            'NOURUTDR' => $no_urutdr,
 
             'NO_PESERTA' => $req->no_peserta,
             'NORJKAN' => $req->norujukan,
@@ -134,41 +136,18 @@ class ProsesController extends Controller
             'KODEPROV' => Auth::user()->KODEPROV,
             'KODEKEC' => Auth::user()->KODEKEC,
             'KODEDESA' => Auth::user()->KODEDESA,
-            'STKAWIN' => $kwn->STKAWIN,
+            'STKAWIN' => $stskawin->STKAWIN,
             'STATUSRES' => 0
-        ]; 
+        ];
 
-        $result = Booking::create($field);
+        $regbooking = DB::connection('mysql')
+                ->table('regbooking')
+                ->insert($field_regbooking);
 
-        if ($result) {
+        if ($antrian && $regbooking) {
             return back() -> with('sukses', 'Berhasil Daftar');
         } else {
             return back() -> with('error', 'Gagal Daftar');
-        }
-    } */
-
-    public function save_form(Request $req)
-    {
-        $loket = Antrian::get_loket($req->klinik);
-        $no_antri = sprintf('%03d', Antrian::get_antri($req->tglreg, $loket->grpunit));
-
-        /* $max_book = Regbooking::get_booking();
-        $urutdr = Regbooking::get_NoUrutDr($req->klinik, $req->dokter, $req->tglreg); */
-
-        $field_antrian = [
-            'NO_ANTRI' => $no_antri,
-            'GRP_LOKET' => $loket->grpunit,
-            'TGL_ANTRI' => $req->tglreg
-        ];
-
-        $antrian = DB::connection('sqlsrv2')
-                ->table('ANTRI')
-                ->insert($field_antrian);
-        
-        if ($antrian) {
-            return response()->json([$field_antrian]);
-        } else {
-            return response()->json(['Error']);
         }
     }
 

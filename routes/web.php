@@ -33,11 +33,6 @@ Route::group(['prefix'=>'user','middleware'=>['auth:pasien']], function() {
 	Route::get('/dftr_klinik', 'PortalController@dftr_klinik')->name('dftr.klinik');
 	Route::get('/dokter', 'ProsesController@find_dokter');
 
-	/* Route::get('/nobooking', 'PortalController@nobooking');
-	Route::get('/nourut', 'PortalController@nourut');
-
-	Route::get('/noantrian', 'PortalController@noantrian'); */
-
 	Route::get('/dftr_dokter', 'PortalController@dftr_dokter')->name('dftr.dokter');
 	Route::get('/klinik', 'ProsesController@find_klinik');
 
