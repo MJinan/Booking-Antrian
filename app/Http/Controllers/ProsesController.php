@@ -150,11 +150,26 @@ class ProsesController extends Controller
     public function save_form(Request $req)
     {
         $loket = Antrian::get_loket($req->klinik);
-        $max_antri = Antrian::get_antri($req->tglreg, $loket->grpunit);
-        $max_book = Regbooking::get_booking();
-        $urutdr = Regbooking::get_NoUrutDr($req->klinik, $req->dokter, $req->tglreg);
+        $no_antri = sprintf('%03d', Antrian::get_antri($req->tglreg, $loket->grpunit));
 
-        return response()->json([$loket, $max_antri, $max_book, $urutdr]);
+        /* $max_book = Regbooking::get_booking();
+        $urutdr = Regbooking::get_NoUrutDr($req->klinik, $req->dokter, $req->tglreg); */
+
+        $field_antrian = [
+            'NO_ANTRI' => $no_antri,
+            'GRP_LOKET' => $loket->grpunit,
+            'TGL_ANTRI' => $req->tglreg
+        ];
+
+        $antrian = DB::connection('sqlsrv2')
+                ->table('ANTRI')
+                ->insert($field_antrian);
+        
+        if ($antrian) {
+            return response()->json([$field_antrian]);
+        } else {
+            return response()->json(['Error']);
+        }
     }
 
     public function find_klinik(Request $req)
@@ -247,7 +262,5 @@ class ProsesController extends Controller
         Booking::whereIn('NOBOOKING', $chk)->update(['STATUSRES' => 1]);
 
     } */
-
-
 
 }

@@ -29,8 +29,10 @@ class Antrian
                     ->select(DB::raw('max(RIGHT(NO_ANTRI, 3)) AS no_antrian'))
                     ->whereDate('TGL_ANTRI', Carbon::parse($tglreg)->format('Y-m-d'))
                     ->where('GRP_LOKET', $loket)
-                    ->get();
+                    ->first();
 
-        return $max_antri;
+        $no_antri = $max_antri->no_antrian+1;
+
+        return $no_antri;
     }
 }
