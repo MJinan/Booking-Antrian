@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Pasien;
 use App\Booking;
+use App\Helpers\Antrian;
+use App\Helpers\Regbooking;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -55,7 +57,7 @@ class ProsesController extends Controller
         return response()->json($data);
     }
 
-    public function save_form(Request $req)
+    /* public function save_form(Request $req)
     {
         $this->validate($req, [
             'penjamin'  => 'required',
@@ -143,6 +145,16 @@ class ProsesController extends Controller
         } else {
             return back() -> with('error', 'Gagal Daftar');
         }
+    } */
+
+    public function save_form(Request $req)
+    {
+        $loket = Antrian::get_loket($req->klinik);
+        $max_antri = Antrian::get_antri($req->tglreg, $loket->grpunit);
+        $max_book = Regbooking::get_booking();
+        $urutdr = Regbooking::get_NoUrutDr($req->klinik, $req->dokter, $req->tglreg);
+
+        return response()->json([$loket, $max_antri, $max_book, $urutdr]);
     }
 
     public function find_klinik(Request $req)
@@ -235,5 +247,7 @@ class ProsesController extends Controller
         Booking::whereIn('NOBOOKING', $chk)->update(['STATUSRES' => 1]);
 
     } */
+
+
 
 }

@@ -163,12 +163,30 @@ class PortalController extends Controller
         ]);
     }
 
-    public function nobooking()
+    /* public function nobooking()
     {
         $nomor = DB::connection('mysql')
             ->table('regbooking')
             ->select(DB::raw('max(RIGHT(NOBOOKING, 3)) AS nomor'))
             ->where('TGLPESAN', Carbon::now()->format('Y-m-d'))
+            ->get();
+
+        return response()->json($nomor);
+    }
+
+    public function noantrian(Request $req)
+    {
+        $loket = DB::connection('mysql')
+                ->table('unit')
+                ->select('kodeunit', 'grpunit')
+                ->where('kodeunit', $req->kode_bag)
+                ->first();
+
+        $nomor = DB::connection('sqlsrv2')
+            ->table('ANTRI')
+            ->select(DB::raw('max(RIGHT(NO_ANTRI, 3)) AS nomor'))
+            ->whereDate('TGL_ANTRI', Carbon::parse($req->utk_tgl)->format('Y-m-d'))
+            ->where('GRP_LOKET', $loket->grpunit)
             ->get();
 
         return response()->json($nomor);
@@ -185,5 +203,5 @@ class PortalController extends Controller
             ->get();
 
         return response()->json($data);
-    }
+    } */
 }

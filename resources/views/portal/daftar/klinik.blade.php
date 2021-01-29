@@ -31,8 +31,11 @@
                         <div class="col-lg-12">
                             <form action="{{ route('s.form') }}" method="post">
                                 {{ csrf_field() }}
-                                <input type="hidden" id="nobooking" name="nobooking">
+                                {{-- <input type="hidden" id="nobooking" name="nobooking">
                                 <input type="hidden" id="nourut_dr" name="nourutdr">
+
+                                <input type="text" id="noantrian" name="noantrian"> --}}
+
                                 <div class="form-group">
                                     <label>Untuk Tgl <span style="color: red">*</span></label>
                                     <div class="input-group">
@@ -101,6 +104,7 @@
                                 </table>
                             </div>
                         </div> --}}
+
                     </div>
                 </div>
             </div>
@@ -192,7 +196,7 @@
             var todayDate = new Date();
             var maxDate = new Date();
 
-            todayDate.setDate(todayDate.getDate()+1);
+            todayDate.setDate(todayDate.getDate());
             maxDate.setDate(todayDate.getDate()+5);
 
             $('.datepicker').daterangepicker({
@@ -209,16 +213,18 @@
 
             $(".select2").select2();
 
-            $.ajax({
+            /* $.ajax({
                 type:'get',
                 url:'{!!URL::to('user/nobooking')!!}',
+                dataType: 'json',
                 success:function(data){
                     $('#nobooking').val(data[0].nomor);
                 }
-            });
-
-            $(document).on('change', '#klinik',function(){
+            }); */
+            
+            $(document).on('change', '#klinik', function(){
                 var kode_bag = $(this).val();
+                var utk_tgl = $('#utktgl').val();
                 var div = $(this).parent();
     
                 var op = "";
@@ -240,6 +246,18 @@
     
                     }
                 });
+
+                /* $.ajax({
+                    type:'get',
+                    url:'{!!URL::to('user/noantrian')!!}',
+                    data:{'kode_bag':kode_bag, 'utk_tgl':utk_tgl},
+                    dataType: 'json',
+                    success:function(data){
+                        console.log(data);
+
+                        $('#noantrian').val(data[0].nomor);
+                    }
+                }); */
             });
 
             $(document).on('change','#dokter',function () {
@@ -249,7 +267,7 @@
 
                 var a = $(this).parent();
 
-                $.ajax({
+                /* $.ajax({
                     type:'get',
                     url:'{!!URL::to('user/nourut')!!}',
                     data:{'utk_tgl':utk_tgl, 'dok_id':id_dokter, 'bag_id':kode_bag},
@@ -257,7 +275,7 @@
                     success:function(data) {
                         $('#nourut_dr').val(data[0].nomor);
                     }
-                });
+                }); */
 
                 /* var tab = " ";
                 $.ajax({
