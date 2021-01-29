@@ -91,7 +91,7 @@ return [
             'prefix_indexes' => true,
         ],
 
-        'sqlsrv' => [
+        'sqlsrv2' => [
             'driver' => 'sqlsrv',
             'url' => env('DATABASE_URL3'),
             'host' => env('DB_HOST3', 'localhost'),
