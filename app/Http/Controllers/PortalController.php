@@ -92,8 +92,19 @@ class PortalController extends Controller
                 ->select('regbooking.NOBOOKING', 'regbooking.NOPASIEN', 'regbooking.NAMAPASIEN', 'regbooking.UTKTGLREG', 'tbljadwal.NAMADOKTER', 'tblbagian.NAMABAGIAN')
                 ->where('regbooking.NOBOOKING', $n_book->NOBOOKING)
                 ->first();
+
+            $no_antrian = substr($n_book->NOBOOKING, -4);
+            $get_loket = substr($no_antrian, 0, 1);
+
+            $lantai = DB::connection('mysql')
+                ->table('nomor')
+                ->select('lantai')
+                ->where('grpunit', $get_loket)
+                ->first();
+
         } else {
             $detail = null;
+            $lantai = null;
         }
 
         $qrcode = new Generator;
@@ -107,6 +118,7 @@ class PortalController extends Controller
             'klinik'   => $klinik,
             'penjamin' => $penjamin,
             'detail'   => $detail,
+            'lantai'   => $lantai,
             'qr'       => $qr
         ]);
     }
@@ -143,8 +155,19 @@ class PortalController extends Controller
                 ->select('regbooking.NOBOOKING', 'regbooking.NOPASIEN', 'regbooking.NAMAPASIEN', 'regbooking.UTKTGLREG', 'tbljadwal.NAMADOKTER', 'tblbagian.NAMABAGIAN')
                 ->where('regbooking.NOBOOKING', $n_book->NOBOOKING)
                 ->first();
+
+            $no_antrian = substr($n_book->NOBOOKING, -4);
+            $get_loket = substr($no_antrian, 0, 1);
+
+            $lantai = DB::connection('mysql')
+                    ->table('nomor')
+                    ->select('lantai')
+                    ->where('grpunit', $get_loket)
+                    ->first();
+
         } else {
             $detail = null;
+            $lantai = null;
         }
 
         $qrcode = new Generator;
@@ -159,6 +182,7 @@ class PortalController extends Controller
             'penjamin' => $penjamin,
             'nomor'    => $nomor,
             'detail'   => $detail,
+            'lantai'   => $lantai,
             'qr'       => $qr
         ]);
     }

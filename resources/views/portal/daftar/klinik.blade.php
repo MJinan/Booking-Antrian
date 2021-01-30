@@ -149,7 +149,7 @@
                                                 </tr>
                                                 <tr>
                                                     <th scope="row" id="col">Poli Tujuan</th>
-                                                    <td>{{ $detail->NAMABAGIAN }}</td>
+                                                    <td>{{ $detail->NAMABAGIAN }} <i>~ {{ $lantai->lantai }}</i></td>
                                                 </tr>
                                                 <tr>
                                                     <th scope="row" id="col">Nama Dokter</th>
