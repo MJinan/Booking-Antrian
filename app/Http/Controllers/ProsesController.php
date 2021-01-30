@@ -59,7 +59,13 @@ class ProsesController extends Controller
 
     public function save_form(Request $req)
     {
-
+        $this->validate($req, [
+            'penjamin'  => 'required',
+            'tglreg'    => 'required',
+            'klinik'    => 'required',
+            'dokter'    => 'required',
+            'norujukan' => 'nullable'
+        ]);
 /* --------------------------------- ANTRIAN -------------------------------- */
         $loket = Antrian::get_loket($req->klinik);
         $no_antri = sprintf('%03d', Antrian::get_antri($req->tglreg, $loket->grpunit));
@@ -70,10 +76,6 @@ class ProsesController extends Controller
             'TGL_ANTRI' => $req->tglreg
         ];
 
-        $antrian = DB::connection('sqlsrv2')
-                ->table('ANTRI')
-                ->insert($field_antrian);
-        
 /* -------------------------- RESERVASI REGBOOKING -------------------------- */
         $no_booking = Regbooking::get_booking();
         $no_urutdr = Regbooking::get_NoUrutDr($req->klinik, $req->dokter, $req->tglreg);
@@ -139,6 +141,10 @@ class ProsesController extends Controller
             'STKAWIN' => $stskawin->STKAWIN,
             'STATUSRES' => 0
         ];
+
+        $antrian = DB::connection('sqlsrv2')
+                ->table('ANTRI')
+                ->insert($field_antrian);
 
         $regbooking = DB::connection('mysql')
                 ->table('regbooking')
