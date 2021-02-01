@@ -71,6 +71,8 @@
     <script src="{{ asset('admin/vendor/sweetalert/sweetalert.min.js') }}"></script>
     <script src="{{ asset('admin/vendor/izitoast/js/iziToast.min.js') }}"></script>
     <script src="{{ asset('admin/vendor/prismjs/prism.js') }}"></script>
+    <script src="{{ asset('admin/vendor/cleave.js/cleave.min.js') }}"></script>
+    <script src="{{ asset('admin/vendor/cleave.js/addons/cleave-phone.us.js') }}"></script>
     
     <!-- Template JS File -->
     <script src="{{ asset('admin/js/scripts.js') }}"></script>

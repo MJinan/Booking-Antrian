@@ -69,11 +69,12 @@ class ProsesController extends Controller
 /* --------------------------------- ANTRIAN -------------------------------- */
         $loket = Antrian::get_loket($req->klinik);
         $no_antri = sprintf('%03d', Antrian::get_antri($req->tglreg, $loket->grpunit));
+        $tgl_antry = $req->tglreg.' '.Carbon::now()->format('H:i:s');
 
         $field_antrian = [
             'NO_ANTRI' => $no_antri,
             'GRP_LOKET' => $loket->grpunit,
-            'TGL_ANTRI' => $req->tglreg
+            'TGL_ANTRI' => $tgl_antry
         ];
 
 /* -------------------------- RESERVASI REGBOOKING -------------------------- */

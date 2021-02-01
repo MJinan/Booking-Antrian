@@ -36,7 +36,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Password</label>
-                                    <input type="password" class="form-control {{ $errors->has('PASSWD') ? ' is-invalid' : '' }}" name="PASSWD" placeholder="Tgl.Lahir (ddmmYYYY)" value="{{ old('PASSWD') }}" required="">
+                                    <input type="password" class="form-control {{ $errors->has('PASSWD') ? ' is-invalid' : '' }}" id="pass" name="PASSWD" placeholder="Tgl.Lahir (ddmmYYYY)" value="{{ old('PASSWD') }}" required="">
                                     @if ($errors->has('PASSWD'))
                                         <div class="invalid-feedback">
                                             {{ $errors->first('PASSWD') }}
@@ -73,11 +73,14 @@
 @section('footer')
     <script>
         $(document).ready(function () {
-            $("#username").on("keypress keyup blur",function (event) {
-                $(this).val($(this).val().replace(/[^\d].+/, ""));
-                if ((event.which < 48 || event.which > 57)) {
-                    event.preventDefault();
-                }
+            var cleavePC = new Cleave('#username', {
+                blocks: [8],
+                numericOnly: true
+            });
+
+            var cleavePC = new Cleave('#pass', {
+                blocks: [8],
+                numericOnly: true
             });
 
             $('#btn-refresh').click(function () {
