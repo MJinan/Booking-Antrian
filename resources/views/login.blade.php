@@ -45,7 +45,7 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="captcha">
-                                        <span>{!! captcha_img('math') !!}</span>
+                                        <span>{!! captcha_img('flat') !!}</span>
                                         <button type="button" class="btn btn-primary" id="btn-refresh">
                                             <i class="fas fa-sync-alt"></i>
                                         </button>
@@ -53,7 +53,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Captcha</label>
-                                    <input type="text" class="form-control {{ $errors->has('captcha') ? ' is-invalid' : '' }}" id="captcha" name="captcha" placeholder="Enter Hasil Captcha" required="">
+                                    <input type="text" class="form-control {{ $errors->has('captcha') ? ' is-invalid' : '' }}" name="captcha" placeholder="Enter Ulang Captcha" required="">
                                     @if ($errors->has('captcha'))
                                         <div class="invalid-feedback">
                                             {{ $errors->first('captcha') }}
@@ -74,13 +74,6 @@
     <script>
         $(document).ready(function () {
             $("#username").on("keypress keyup blur",function (event) {
-                $(this).val($(this).val().replace(/[^\d].+/, ""));
-                if ((event.which < 48 || event.which > 57)) {
-                    event.preventDefault();
-                }
-            });
-
-            $("#captcha").on("keypress keyup blur",function (event) {
                 $(this).val($(this).val().replace(/[^\d].+/, ""));
                 if ((event.which < 48 || event.which > 57)) {
                     event.preventDefault();

@@ -47,6 +47,6 @@ class AuthController extends Controller
 
     public function refreshCaptcha()
     {
-        return captcha_img('math');
+        return captcha_img('flat');
     }
 }
