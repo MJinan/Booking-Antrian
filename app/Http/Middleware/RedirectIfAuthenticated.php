@@ -18,7 +18,7 @@ class RedirectIfAuthenticated
     public function handle($request, Closure $next, $guard = null)
     {
         if (Auth::guard('pasien')->check()) {
-            return redirect('/user');
+            return redirect('/user/dftr_klinik');
         }
 
         return $next($request);

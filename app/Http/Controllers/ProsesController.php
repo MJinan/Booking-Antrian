@@ -77,7 +77,6 @@ class ProsesController extends Controller
         ];
 
 /* -------------------------- RESERVASI REGBOOKING -------------------------- */
-        $no_booking = Regbooking::get_booking();
         $no_urutdr = Regbooking::get_NoUrutDr($req->klinik, $req->dokter, $req->tglreg);
         $alamat = Regbooking::get_alamat();
         $stskawin = Regbooking::get_stskawin();
@@ -85,7 +84,7 @@ class ProsesController extends Controller
         $generate = Carbon::parse($req->tglreg)->format('ymd');
 
         $field_regbooking = [
-            'NOBOOKING' => $generate.$loket->grpunit.sprintf('%03d', $no_booking),
+            'NOBOOKING' => $generate.$loket->grpunit.sprintf('%03d', $no_antri),
             'KODEBAGIAN' => $req->klinik,
             'KODEDOKTER' => $req->dokter,
             'WAKTUDR' => 'P',

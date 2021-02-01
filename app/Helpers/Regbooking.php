@@ -12,19 +12,6 @@ use Illuminate\Support\Facades\Auth;
 
 class Regbooking
 {
-    public static function get_booking()
-    {
-        $max_book = DB::connection('mysql')
-                    ->table('regbooking')
-                    ->select(DB::raw('max(RIGHT(NOBOOKING, 3)) AS no_booking'))
-                    ->where('TGLPESAN', Carbon::now()->format('Y-m-d'))
-                    ->first();
-
-        $no_booking = $max_book->no_booking+1;    
-
-        return $no_booking;
-    }
-
     public static function get_NoUrutDr($klinik, $dokter, $tglreg)
     {
         $urutdr = DB::connection('mysql')
