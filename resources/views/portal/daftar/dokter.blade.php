@@ -13,7 +13,7 @@
         }
 
         #col {
-            width: 20px;
+            width: 50px;
         }
         #no_book {
             background-color: white;
@@ -33,8 +33,6 @@
                         <div class="col-lg-12">
                             <form action="{{ route('s.form') }}" method="post">
                                 {{ csrf_field() }}
-                                <input type="hidden" id="nobooking" name="nobooking">
-                                <input type="hidden" id="nourut_dr" name="nourutdr">
                                 <div class="form-group">
                                     <label>Untuk Tgl <span style="color: red">*</span></label>
                                     <div class="input-group">
@@ -104,6 +102,7 @@
                                 </table>
                             </div>
                         </div> --}}
+
                     </div>
                 </div>
             </div>
@@ -121,45 +120,59 @@
                         </button>
                     </div>
                     <div class="modal-body" id="no_book">
+                        <div class="alert alert-danger alert-dismissible show fade" id="danger">
+                            <div class="alert-body">
+                              Jika Datang Melebihi Estimasi Jam Datang Akan Dilewati 5 Nomor
+                            </div>
+                        </div>
+                        <div class="alert alert-info">
+                            Mohon Screenshoot Detail Pesanan
+                        </div>
                         <div class="row">
                             <div class="col-lg-4" style="margin: auto; width: 50%; padding: 10px">
                                 <div class="text-center">
-                                    {!! QrCode::size(180)->generate('COBA QR CODE'); !!}
+                                    {{ $qr }}
                                 </div>
                             </div>
                             <div class="col-lg-8">
                                 <div class="table-responsive">
-                                    <table class="table table-borderless">
+                                    <table class="table table-borderless table-md">
                                         <tbody>
                                             <tr>
-                                                <tr>
-                                                    <th scope="row" id="col">No.Booking</th>
-                                                    <td>{{ $detail->NOBOOKING }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row" id="col">No.RM</th>
-                                                    <td>
-                                                        {{ $detail->NOPASIEN }}
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row" id="col">Nama Pasien</th>
-                                                    <td>{{ $detail->NAMAPASIEN }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row" id="col">Poli Tujuan</th>
-                                                    <td>{{ $detail->NAMABAGIAN }} <i>~ {{ $lantai->lantai }}</i></td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row" id="col">Nama Dokter</th>
-                                                    <td>{{ $detail->NAMADOKTER }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row" id="col">Tgl Periksa</th>
-                                                    <td>
-                                                        {{ Carbon\Carbon::parse($detail->UTKTGLREG)->translatedFormat('d F Y') }}
-                                                    </td>
-                                                </tr>
+                                                <th scope="row" id="col">No.Booking</th>
+                                                <td>{{ $detail->NOBOOKING }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row" id="col">No.RM</th>
+                                                <td>
+                                                    {{ $detail->NOPASIEN }}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row" id="col">Nama</th>
+                                                <td>{{ $detail->NAMAPASIEN }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row" id="col">Poli Tujuan</th>
+                                                <td>{{ $detail->NAMABAGIAN }} <i>~ {{ $lantai->lantai }}</i></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row" id="col">Dokter</th>
+                                                <td>{{ $detail->NAMADOKTER }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row" id="col">Tgl Periksa</th>
+                                                <td>
+                                                    {{ Carbon\Carbon::parse($detail->UTKTGLREG)->translatedFormat('d F Y') }}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row" id="col">Estimasi Jam Datang</th>
+                                                <td>
+                                                    <div style="padding-top: 20px">
+                                                        {{ Carbon\Carbon::parse($jamdtg->TGL_ANTRI)->addMinutes(10)->format('H:i:s') }}
+                                                    </div>
+                                                </td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -168,7 +181,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" id="save">Simpan</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        {{-- <button type="button" class="btn btn-primary" id="save">Simpan</button> --}}
                     </div>
                 </div>
             </div>
@@ -187,6 +201,9 @@
 
         @if(Session::has('sukses'))
             $('#detailPesanan').modal('show');
+            setTimeout(function () {
+                $('#danger').alert('close');
+            }, 6000);
         @endif
     </script>
 
@@ -195,8 +212,8 @@
             var todayDate = new Date();
             var maxDate = new Date();
 
-            todayDate.setDate(todayDate.getDate()+1);
-            maxDate.setDate(todayDate.getDate()+5);
+            todayDate.setDate(todayDate.getDate());
+            maxDate.setDate(todayDate.getDate()+6);
 
             $('.datepicker').daterangepicker({
                 locale: {
@@ -213,14 +230,6 @@
             $(".select2").select2();
 
             $('#klinik').next(".select2-container").hide();
-
-            $.ajax({
-                type:'get',
-                url:'{!!URL::to('user/nobooking')!!}',
-                success:function(data){
-                    $('#nobooking').val(data[0].nomor);
-                }
-            });
 
             $(document).on('change','#dokter',function(){
                 var kode_dok = $(this).val();
@@ -257,16 +266,6 @@
 
                             div.find('#klinik').html(" ");
                             div.find('#klinik').append(op);
-
-                            $.ajax({
-                                type:'get',
-                                url:'{!!URL::to('user/nourut')!!}',
-                                data:{'utk_tgl':utk_tgl, 'dok_id':kode_dok, 'bag_id':$('#klinik').val()},
-                                dataType:'json',//return data will be json
-                                success:function(data) {
-                                    $('#nourut_dr').val(data[0].nomor);
-                                }
-                            });
 
                             /* $.ajax({
                                 type:'get',
@@ -357,16 +356,6 @@
                 var utk_tgl = $('#utktgl').val();
 
                 var tab = " ";
-
-                $.ajax({
-                    type:'get',
-                    url:'{!!URL::to('user/nourut')!!}',
-                    data:{'utk_tgl':utk_tgl, 'dok_id':id_dokter, 'bag_id':kode_bag},
-                    dataType:'json',//return data will be json
-                    success:function(data) {
-                        $('#nourut_dr').val(data[0].nomor);
-                    }
-                });
 
                 /* $.ajax({
                     type:'get',

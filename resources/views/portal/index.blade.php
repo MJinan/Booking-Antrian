@@ -21,14 +21,20 @@
                                     <td>{{$pasien->NOPASIEN}}</td>
                                 </tr>
                                 <tr>
-                                    <th scope="row" id="col">Nama/Gender</th>
+                                    <th scope="row" id="col">Nama</th>
                                     <td>
-                                        {{$pasien->NAMAPASIEN}} ~ @switch($pasien->JNSKELAMIN)
+                                        {{$pasien->NAMAPASIEN}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" id="col">Jns.Kelamin</th>
+                                    <td>
+                                        @switch($pasien->JNSKELAMIN)
                                             @case('P')
-                                                <i>PEREMPUAN</i>
+                                                PEREMPUAN
                                                 @break
                                             @case('L')
-                                                <i>LAKI-LAKI</i>
+                                                LAKI-LAKI
                                                 @break                                    
                                         @endswitch
                                     </td>

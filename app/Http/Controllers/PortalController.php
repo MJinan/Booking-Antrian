@@ -20,6 +20,14 @@ class PortalController extends Controller
         return view('portal.index', compact('pasien'));
     }
 
+    public function vcard(Request $req)
+    {
+        $pasien = login_pasien::where('NOPASIEN', Auth::id())
+                ->first();
+
+        return view('portal.vcard', compact('pasien'));
+    }
+
     public function rajal()
     {
         $rajal = DB::connection('sqlsrv')
@@ -80,7 +88,7 @@ class PortalController extends Controller
                     ->where('STSAKTIF', 'A')
                     ->get();
 
-        $n_book = Booking::select('NOBOOKING')
+        $n_book = Booking::select('NOBOOKING', 'UTKTGLREG')
                 ->where('NOPASIEN', Auth::id())
                 ->where('TGLPESAN', Carbon::now()->format('Y-m-d'))
                 ->latest('JAMPESAN')
@@ -94,6 +102,8 @@ class PortalController extends Controller
                 ->first();
 
             $no_antrian = substr($n_book->NOBOOKING, -4);
+
+            $no_antrian_jam = substr($n_book->NOBOOKING, -3);
             $get_loket = substr($no_antrian, 0, 1);
 
             $lantai = DB::connection('mysql')
@@ -102,9 +112,18 @@ class PortalController extends Controller
                 ->where('grpunit', $get_loket)
                 ->first();
 
+            $jamdtg = DB::connection('sqlsrv2')
+                    ->table('antri')
+                    ->select('TGL_ANTRI')
+                    ->where('NO_ANTRI', $no_antrian_jam)
+                    ->where('GRP_LOKET', $get_loket)
+                    ->whereDate('TGL_ANTRI', $n_book->UTKTGLREG)
+                    ->first();
+
         } else {
             $detail = null;
             $lantai = null;
+            $jamdtg = null;
         }
 
         $qrcode = new Generator;
@@ -119,6 +138,7 @@ class PortalController extends Controller
             'penjamin' => $penjamin,
             'detail'   => $detail,
             'lantai'   => $lantai,
+            'jamdtg'   => $jamdtg,
             'qr'       => $qr
         ]);
     }
@@ -143,7 +163,7 @@ class PortalController extends Controller
                 ->where('TGLPESAN', Carbon::now()->format('Y-m-d'))
                 ->get();
 
-        $n_book = Booking::select('NOBOOKING')
+        $n_book = Booking::select('NOBOOKING', 'UTKTGLREG')
                 ->where('NOPASIEN', Auth::id())
                 ->where('TGLPESAN', Carbon::now()->format('Y-m-d'))
                 ->latest('JAMPESAN')
@@ -165,14 +185,23 @@ class PortalController extends Controller
                     ->where('grpunit', $get_loket)
                     ->first();
 
+            $jamdtg = DB::connection('sqlsrv2')
+                    ->table('antri')
+                    ->select('TGL_ANTRI')
+                    ->where('NO_ANTRI', $no_antrian)
+                    ->where('GRP_LOKET', $get_loket)
+                    ->whereDate('TGL_ANTRI', $n_book->UTKTGLREG)
+                    ->first();
+
         } else {
             $detail = null;
             $lantai = null;
+            $jamdtg = null;
         }
 
         $qrcode = new Generator;
         if ($n_book != null) {
-            $qr = $qrcode->size(200)->generate($n_book->NOBOOKING);
+            $qr = $qrcode->size(180)->generate($n_book->NOBOOKING);
         } else {
             $qr = null;
         }
@@ -183,6 +212,7 @@ class PortalController extends Controller
             'nomor'    => $nomor,
             'detail'   => $detail,
             'lantai'   => $lantai,
+            'jamdtg'   => $jamdtg,
             'qr'       => $qr
         ]);
     }

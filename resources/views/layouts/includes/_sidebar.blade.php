@@ -12,6 +12,11 @@
                     <i class="fas fa-home"></i> <span>Home</span>
                 </a>
             </li>
+            <li>
+                <a class="nav-link" href="{{ route('vcard') }}">
+                    <i class="fas fa-id-card"></i> <span>KIB Pasien</span>
+                </a>
+            </li>
             <!-- <li>
                 <a class="nav-link" href="#">
                     <i class="fas fa-calendar"></i> <span>Jadwal Dokter</span>
@@ -32,7 +37,7 @@
                         <i class="fas fa-envelope-open-text"></i> <span>History Pesanan</span>
                     </a>
                 </li>
-                <li class="nav-item dropdown">
+                {{-- <li class="nav-item dropdown">
                     <a href="#" class="nav-link has-dropdown">
                         <i class="fas fa-history"></i> <span>Riwayat</span>
                     </a>
@@ -40,7 +45,7 @@
                         <li><a class="nav-link" href="{{ route('rwyt.rajal') }}">Rawat Jalan</a></li>
                         <li><a class="nav-link" href="{{ route('rwyt.ranap') }}">Rawat Inap</a></li>
                     </ul>
-                </li>
+                </li> --}}
             @endif
 
             <li>
