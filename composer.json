@@ -14,6 +14,7 @@
         "laravel/tinker": "^1.0",
         "laravelcollective/html": "^5.8",
         "mews/captcha": "^3.2",
+        "milon/barcode": "^6",
         "simplesoftwareio/simple-qrcode": "^4.1",
         "yajra/laravel-datatables-oracle": "^9.15"
     },

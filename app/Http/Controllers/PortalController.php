@@ -177,6 +177,8 @@ class PortalController extends Controller
                 ->first();
 
             $no_antrian = substr($n_book->NOBOOKING, -4);
+
+            $no_antrian_jam = substr($n_book->NOBOOKING, -3);
             $get_loket = substr($no_antrian, 0, 1);
 
             $lantai = DB::connection('mysql')
@@ -188,7 +190,7 @@ class PortalController extends Controller
             $jamdtg = DB::connection('sqlsrv2')
                     ->table('antri')
                     ->select('TGL_ANTRI')
-                    ->where('NO_ANTRI', $no_antrian)
+                    ->where('NO_ANTRI', $no_antrian_jam)
                     ->where('GRP_LOKET', $get_loket)
                     ->whereDate('TGL_ANTRI', $n_book->UTKTGLREG)
                     ->first();

@@ -1,0 +1,236 @@
+body {
+    background: linear-gradient(125deg, #207A89, #17A3BA 55%);
+}
+
+.card {
+    font-family: Share Tech Mono;
+    background-color: #ffffff;
+    display: block;
+    padding 50px 100px;
+    width: 700px;
+    height: 430px;
+    border-radius: 20px;
+    -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 1);
+    -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 1);
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 1);
+    border: 1px solid grey;
+    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+.lg-pemkot {
+    position: absolute;
+    max-width: 67px;
+    padding-top: 7px;
+    padding-left: 60px;
+}
+
+.lg-rsu {
+    position: absolute;
+    max-width: 83px;
+    padding-top: 7px;
+    padding-left: 81%;
+}
+
+.bg-header {
+    position: absolute;
+    width: 100%;
+    height: 100px;
+    background: linear-gradient(90deg, #42A4FF 31.25%, #FFFFFF 100%);
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.bg-kib {
+    position: absolute;
+    top: 100px;
+    width: 266px;
+    height: 36px;
+    left: 434px;
+    background: #ffbb03;
+    border-radius: 0px 0px 0px 30px;
+}
+
+.bg-footer {
+    position: absolute;
+    top: 88.5%;
+    width: 100%;
+    height: 50px;
+    background: #ffbb03;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.pemkot {
+    font-family: Signika;
+    text-transform: uppercase;
+    color: black;
+    font-size: 20px;
+    font-weight: 400;
+    padding-left: 215px;
+    padding-top: 5px;
+    position: absolute;
+    display: inline-block;
+}
+
+.rsud {
+    font-family: Signika;
+    text-transform: uppercase;
+    color: black;
+    font-size: 20px;
+    font-weight: 400;
+    padding-left: 190px;
+    padding-top: 25px;
+    position: absolute;
+    display: inline-block;
+}
+
+.jl {
+    font-family: Signika;
+    color: black;
+    font-size: 20px;
+    font-weight: 400;
+    padding-left: 155px;
+    padding-top: 45px;
+    position: absolute;
+    display: inline-block;
+}
+
+.kota {
+    font-family: Signika;
+    text-transform: uppercase;
+    color: black;
+    font-size: 20px;
+    font-weight: 400;
+    padding-left: 299px;
+    padding-top: 68px;
+    position: absolute;
+    display: inline-block;
+}
+
+.kib {
+    font-family: Signika;
+    text-transform: uppercase;
+    color: black;
+    font-size: 20px;
+    font-weight: 400;
+    padding-left: 450px;
+    padding-top: 104px;
+    position: absolute;
+    display: inline-block;
+}
+
+.footer {
+    font-family: Signika;
+    text-transform: uppercase;
+    color: black;
+    font-size: 30px;
+    font-weight: 400;
+    padding-left: 63px;
+    padding-top: 55%;
+    position: absolute;
+    display: inline-block;
+}
+
+.nama {
+    font-family: Signika;
+    text-transform: uppercase;
+    color: black;
+    font-size: 25px;
+    font-weight: 400;
+    padding-left: 50px;
+    padding-top: 165px;
+    position: absolute;
+    display: inline-block;
+}
+
+.no-rm {
+    font-family: Signika;
+    text-transform: uppercase;
+    color: black;
+    font-size: 25px;
+    font-weight: 400;
+    padding-left: 50px;
+    padding-top: 206px;
+    position: absolute;
+    display: inline-block;
+}
+
+.jk {
+    font-family: Signika;
+    text-transform: uppercase;
+    color: black;
+    font-size: 25px;
+    font-weight: 400;
+    padding-left: 50px;
+    padding-top: 245px;
+    position: absolute;
+    display: inline-block;
+}
+
+.barcode {
+    padding-left: 67%;
+    padding-top: 42%;
+    position: absolute;
+    display: inline-block;
+}
+
+@-webkit-keyframes Logo {
+    0% {
+        background-position: 0% 50%
+    }
+
+    50% {
+        background-position: 100% 50%
+    }
+
+    100% {
+        background-position: 0% 50%
+    }
+}
+
+@-moz-keyframes Logo {
+    0% {
+        background-position: 0% 50%
+    }
+
+    50% {
+        background-position: 100% 50%
+    }
+
+    100% {
+        background-position: 0% 50%
+    }
+}
+
+@-o-keyframes Logo {
+    0% {
+        background-position: 0% 50%
+    }
+
+    50% {
+        background-position: 100% 50%
+    }
+
+    100% {
+        background-position: 0% 50%
+    }
+}
+
+@keyframes Logo {
+    0% {
+        background-position: 0% 50%
+    }
+
+    50% {
+        background-position: 100% 50%
+    }
+
+    100% {
+        background-position: 0% 50%
+    }
+}

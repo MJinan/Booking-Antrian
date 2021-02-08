@@ -1,49 +1,59 @@
-@extends('layouts.master')
-@section('title', 'KIB Pasien')
+<!DOCTYPE html>
+<html lang="en">
 
-@section('header')
-    <style>
-        #kib-nama {
-            position: absolute;
-            left: 5%;
-            top: 65%;
-            color: black;
-        }
-        #kib-rm {
-            position: absolute;
-            left: 5%;
-            top: 70%;
-            color: black;
-        }
-        #kib-jk {
-            position: absolute;
-            left: 5%;
-            top: 75%;
-            color: black;
-        }
-    </style>
-@stop
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{{ asset('admin/css/vcard.css') }}">
 
-@section('content')
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-header">
-                    <h4>KIB Pasien</h4>
-                </div>
-                <div class="card-body">
-                    <img src="{{ asset('admin/img/KIB.png') }}" class="img-fluid" alt="Responsive image" style="max-width: 80%;">
-                    <h6 id="kib-nama">
-                        {{ $pasien->NAMAPASIEN }}
-                    </h6>
-                    <h6 id="kib-rm">
-                        {{$pasien->NOPASIEN}}
-                    </h6>
-                    <h6 id="kib-jk">
-                        {{$pasien->JNSKELAMIN}}
-                    </h6>
-                </div>
-            </div>
+    <title>Document</title>
+</head>
+
+<body>
+    <link href='https://fonts.googleapis.com/css?family=Share+Tech+Mono' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Signika:400' rel='stylesheet' type='text/css'>
+    <div class="card-holder">
+        <div class="card">
+            <div class="bg-header"></div>
+
+            <span class="pemkot">Pemerintah Kota Magelang</span>
+            <span class="rsud">
+                <strong>Rumah Sakit Umum Daerah Tidar</strong>
+            </span>
+            <span class="jl">Jl. Tidar No. 30A. Telp (0293) 362260, 362463</span>
+            <span class="kota">Magelang</span>
+
+            <img class="lg-pemkot" src="{{ asset('admin/img/pemkot.png') }}">
+
+            <img class="lg-rsu" src="{{ asset('admin/img/rsud.png') }}">
+
+            <div class="bg-kib"></div>
+            <span class="kib">
+               <strong>Kartu Identitas Berobat</strong>
+            </span>
+
+            <span class="nama">{{ $pasien->NAMAPASIEN }}</span>
+            <span class="no-rm">{{ $pasien->NOPASIEN }}</span>
+            <span class="jk">
+                @switch($pasien->JNSKELAMIN)
+                    @case('P')
+                        PEREMPUAN
+                        @break
+                    @case('L')
+                        LAKI-LAKI
+                        @break                                    
+                @endswitch
+            </span>
+            <span class="barcode">
+                {!! \DNS1D::getBarcodeHTML($pasien->NOPASIEN, "I25", 3, 45) !!}
+            </span>
+
+            <div class="bg-footer"></div>
+            <span class="footer">Kartu Ini Harus Dibawa Waktu Berobat</span>
         </div>
     </div>
-@stop
+
+</body>
+
+</html>

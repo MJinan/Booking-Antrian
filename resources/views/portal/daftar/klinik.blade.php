@@ -198,9 +198,6 @@
 
         @if(Session::has('sukses'))
             $('#detailPesanan').modal('show');
-            setTimeout(function () {
-                $('#danger').alert('close');
-            }, 6000);
         @endif
     </script>
 
