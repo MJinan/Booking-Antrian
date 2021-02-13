@@ -53,7 +53,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Captcha</label>
-                                    <input type="text" class="form-control {{ $errors->has('captcha') ? ' is-invalid' : '' }}" name="captcha" placeholder="Enter Ulang Captcha" required="">
+                                    <input type="text" class="form-control {{ $errors->has('captcha') ? ' is-invalid' : '' }}" name="captcha" placeholder="Enter Ulang Captcha" required autocomplete="off">
                                     @if ($errors->has('captcha'))
                                         <div class="invalid-feedback">
                                             {{ $errors->first('captcha') }}
